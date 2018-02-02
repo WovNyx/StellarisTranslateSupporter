@@ -10,10 +10,10 @@ This program is for helping .properties file to .yml file used in Stellaris(Para
 
 # Detail and Warning
   - Path can be relative or abstract
-    - ex 1(abstract) : /dev/show/properties
-    - ex 2(abstract) : C:\stella\ris\proer\ties\
-    - ex 3(relative) : ./works
-     - this directory is placed as same directory of program's .py file and directory name is 'works'(Without Quotes)
+    - ex 1(abstract) : ```/dev/show/properties```
+    - ex 2(abstract) : ```C:\stella\ris\proer\ties\```
+    - ex 3(relative) : ```./works```
+     - this directory is placed as same directory of program's .py file and directory name is ```works```
   - If path.txt not found or wrong path recieved, program used it's own directory as path
   - Program may be broken dealing with too much/large file. Always backup your file before using it
 
