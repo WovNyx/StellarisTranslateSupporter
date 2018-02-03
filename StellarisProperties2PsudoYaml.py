@@ -34,10 +34,11 @@ def Properties2ParadoxYaml(filename, path = None) :
             print(temp)
             temp[0] = temp[0].replace("코", ":")
             temp[1] = temp[1].replace("<?>","")
-            if temp[1][0] != '"' :
-                temp[1] = '"' + temp[1]
-            if temp[1][-1] != '"' :
-                temp[1] = temp[1] + '"'
+            if temp[1] != '' :
+                if temp[1][0] != '"' :
+                    temp[1] = '"' + temp[1]
+                if temp[1][-1] != '"' :
+                    temp[1] = temp[1] + '"'
             proc.append(" ".join(temp) )
         else :
             proc.append("")
