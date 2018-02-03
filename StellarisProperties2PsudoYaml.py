@@ -13,7 +13,7 @@ def Properties2ParadoxYaml(filename, path = None) :
     ##
     try :
         file = open(filedir + filename, "r", encoding = "UTF-8")
-        print("opening file {name} at {dir}".format( name = filename, dir = filedir)
+        print("opening file {name} at {dir}".format( name = filename, dir = filedir) )
     except :
         print("error opening properties file")
         print(filedir, filename)
@@ -32,7 +32,7 @@ def Properties2ParadoxYaml(filename, path = None) :
 
     try :
         file = open(filedir + filename[:-10] + "yml" , 'w', encoding = "UTF-8-SIG") 
-        print("writing file {name} at {dir}".format( name = filename[:-10]+"yml", dir = filedir)
+        print("writing file {name} at {dir}".format( name = filename[:-10]+"yml", dir = filedir) )
     except :
         print("error making yaml-like paradox file")
         
