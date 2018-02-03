@@ -25,8 +25,29 @@ def Properties2ParadoxYaml(filename, path = None) :
 
     ## this 2 line is all we actually do for conversion.
     ## WTF Paradox...... this isn't Yaml......
+    ## data : ...코x='...' x is number
+    ## hard coded for 0 to 9 for now. will fix.
     for ii in recv :
-        proc.append(":0 ".join(ii.split("코0=") ).replace("<?>", "") )
+        if "코0=" in ii :
+            proc.append(":0 ".join(ii.split("코0=") ).replace("<?>", "") )
+        if "코1=" in ii :
+            proc.append(":0 ".join(ii.split("코1=") ).replace("<?>", "") )
+        if "코2=" in ii :
+            proc.append(":0 ".join(ii.split("코2=") ).replace("<?>", "") )
+        if "코3=" in ii :
+            proc.append(":0 ".join(ii.split("코3=") ).replace("<?>", "") )
+        if "코4=" in ii :
+            proc.append(":0 ".join(ii.split("코4=") ).replace("<?>", "") )
+        if "코5=" in ii :
+            proc.append(":0 ".join(ii.split("코5=") ).replace("<?>", "") )
+        if "코6=" in ii :
+            proc.append(":0 ".join(ii.split("코6=") ).replace("<?>", "") )
+        if "코7=" in ii :
+            proc.append(":0 ".join(ii.split("코7=") ).replace("<?>", "") )
+        if "코8=" in ii :
+            proc.append(":0 ".join(ii.split("코8=") ).replace("<?>", "") )
+        if "코9=" in ii :
+            proc.append(":0 ".join(ii.split("코9=") ).replace("<?>", "") )
         
     file.close()
 
@@ -73,3 +94,4 @@ if __name__ == "__main__" :
     for f in files:
         if '.properties' == f[-11:] :
             Properties2ParadoxYaml(f, path)
+
