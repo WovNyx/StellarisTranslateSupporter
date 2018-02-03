@@ -31,23 +31,23 @@ def Properties2ParadoxYaml(filename, path = None) :
         if "코0=" in ii :
             proc.append(":0 ".join(ii.split("코0=") ).replace("<?>", "") )
         if "코1=" in ii :
-            proc.append(":0 ".join(ii.split("코1=") ).replace("<?>", "") )
+            proc.append(":1 ".join(ii.split("코1=") ).replace("<?>", "") )
         if "코2=" in ii :
-            proc.append(":0 ".join(ii.split("코2=") ).replace("<?>", "") )
+            proc.append(":2 ".join(ii.split("코2=") ).replace("<?>", "") )
         if "코3=" in ii :
-            proc.append(":0 ".join(ii.split("코3=") ).replace("<?>", "") )
+            proc.append(":3 ".join(ii.split("코3=") ).replace("<?>", "") )
         if "코4=" in ii :
-            proc.append(":0 ".join(ii.split("코4=") ).replace("<?>", "") )
+            proc.append(":4 ".join(ii.split("코4=") ).replace("<?>", "") )
         if "코5=" in ii :
-            proc.append(":0 ".join(ii.split("코5=") ).replace("<?>", "") )
+            proc.append(":5 ".join(ii.split("코5=") ).replace("<?>", "") )
         if "코6=" in ii :
-            proc.append(":0 ".join(ii.split("코6=") ).replace("<?>", "") )
+            proc.append(":6 ".join(ii.split("코6=") ).replace("<?>", "") )
         if "코7=" in ii :
-            proc.append(":0 ".join(ii.split("코7=") ).replace("<?>", "") )
+            proc.append(":7 ".join(ii.split("코7=") ).replace("<?>", "") )
         if "코8=" in ii :
-            proc.append(":0 ".join(ii.split("코8=") ).replace("<?>", "") )
+            proc.append(":8 ".join(ii.split("코8=") ).replace("<?>", "") )
         if "코9=" in ii :
-            proc.append(":0 ".join(ii.split("코9=") ).replace("<?>", "") )
+            proc.append(":9 ".join(ii.split("코9=") ).replace("<?>", "") )
         
     file.close()
 
@@ -94,4 +94,4 @@ if __name__ == "__main__" :
     for f in files:
         if '.properties' == f[-11:] :
             Properties2ParadoxYaml(f, path)
-
+    
