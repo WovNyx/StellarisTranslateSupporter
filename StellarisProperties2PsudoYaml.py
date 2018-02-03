@@ -12,7 +12,7 @@ def Properties2ParadoxYaml(filename, path = None) :
         filedir = os.getcwd()
     ##
     try :
-        file = open(os.path.join(filedir, filename), "r", encoding = "UTF-8")
+        file = open(os.path.join(filedir, filename), "r", encoding = "UTF-8-SIG")
         print("opening file {name} at {dir}".format( name = filename, dir = filedir) )
     except :
         print("error opening properties file")
@@ -28,6 +28,8 @@ def Properties2ParadoxYaml(filename, path = None) :
     ## data : ...코x='...' x is number
     for ii in recv :
         if ii.strip() != '' :
+            if ii[0] == "#" :
+                continue
             temp = ii.split("=")
             print(temp)
             temp[0] = temp[0].replace("코", ":")
@@ -42,6 +44,7 @@ def Properties2ParadoxYaml(filename, path = None) :
     file.close()
 
     try :
+        ##open file as UTF-8-SIG(with BOM) for not crashing if it has BOM or not
         file = open(os.path.join(filedir, filename[:-10]) + "yml" , 'w', encoding = "UTF-8-SIG") 
         print("writing file {name} at {dir}".format( name = filename[:-10]+"yml", dir = filedir) )
     except :
