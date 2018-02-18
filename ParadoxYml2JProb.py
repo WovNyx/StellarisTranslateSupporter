@@ -33,13 +33,13 @@ if __name__ == "__main__" :
                 result = Properties2ParadoxYaml(f, path)
                 print(result)
                 if result :
-                    if result['NoDelim'] != []:
-                        notproced.append((f, result) )
-                    elif result['BadKey'] != [] :
-                        notproced.append( (f, result) )
-                    elif result['NoValue'] != [] :
-                        completed.append( (f, result) )
-                    else :
+                    #if result['NoDelim'] != []:
+                    #    notproced.append((f, result) )
+                    #elif result['BadKey'] != [] :
+                    #    notproced.append( (f, result) )
+                    #elif result['NoValue'] != [] :
+                    #    completed.append( (f, result) )
+                    #else :
                         completed.append((f, "clean") )
                 else :
                     notproced.append(f, "FileI/Oerror")
