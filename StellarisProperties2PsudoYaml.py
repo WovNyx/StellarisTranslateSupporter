@@ -2,8 +2,23 @@
 
 import os
 
+testing = False
+
+def _debugprint(*args, debug = False) :
+    if debug :
+        rtn = ''
+        for ii in args :
+            if ii :
+                rtn += str(ii)
+        print(rtn)
+    else :
+        pass
+    
+
 ## actually this thing is not real yml file..
 ## Do your Work Paradox!
+## returns list of broken line, return None if nothing wrong
+## returns False for file IO problem
 def Properties2ParadoxYaml(filename, path = None) :
     ## use current directory of program as default path
     if path :
@@ -18,38 +33,50 @@ def Properties2ParadoxYaml(filename, path = None) :
     except :
         print("error opening properties file")
         print(filedir, filename)
+        return False
     recv = file.read().split("\n") ## seperate by line
 
     proc = []
 
     temp = None
+    
+    ## variables for error handling
     linecount = 0
-    ## this 2 line is all we actually do for conversion.
-    ## WTF Paradox...... this isn't Yaml......
-    ## data : ...코x='...' x is number
+    badline = {}
+    badline['NoDelim'] = [] ## deliminator '=' not found
+    badline['BadKey']  = []
+    badline['NoValue'] = []
+    
     for line in recv :
         linecount += 1
         if line.strip() != '' :
             if line.strip()[0] == "#" :
                 continue
-            temp = line.split("=")
-            #print(temp)
+                
+            temp = line.split("=", 1)
+            _debugprint(temp, debug = testing)
+            
             if len(temp) != 2 :
+                badline['NoDelim'].append(linecount)
                 print("wrong data, delminonator not found. skipping this line", linecount)
+                continue
+                
             if "코" in temp[0] :
                 temp[0] = temp[0].replace("코", ":")
             elif ":" in temp[0] :
                 pass
             else :
+                badline['BadKey'].append(linecount)
                 print("wrong key in line {fileline}, key {lkey}".format(fileline = linecount, lkey = temp[0] ) )
-            temp[1] = temp[1].replace("<?>","")
-            
-            
+                continue
+
             
             if temp[1] == '' :
                 print("no value in line {fileline}, key {lkey}".format(fileline = linecount, lkey = temp[0] ) )
                 temp[1] = '""'
+                badline['NoValue'].append(linecount)
             else :
+                temp[1] = temp[1].replace("<?>","")
                 if temp[1][0] != '"' :
                     temp[1] = '"' + temp[1]
                 if temp[1][-1] != '"' :
@@ -59,23 +86,28 @@ def Properties2ParadoxYaml(filename, path = None) :
             proc.append("")
             
     file.close()
-
+    
+    if badline['NoDelim'] != []:
+        return badline
+    elif badline['BadKey'] != [] :
+        return badline
+    
     try :
         ##open file as UTF-8-SIG(with BOM) for not crashing if it has BOM or not
         file = open(os.path.join(filedir, filename[:-10]) + "yml" , 'w', encoding = "UTF-8-SIG") 
         print("writing file {name} at {dir}".format( name = filename[:-10]+"yml", dir = filedir) )
+        file.write("l_english" + "\n")
+        for ii in proc :
+            file.write(" " + ii + "\n")
+        file.close()
     except :
         print("error making yaml-like paradox file")
+        return False
         
-        
-    file.write("l_english" + "\n")
-    for ii in proc :
-        file.write(" " + ii + "\n")
+    return badline
 
-    file.close()
-
-    return
-
+    
+    
 if __name__ == "__main__" :
     ## path.txt is text file with 1 line of string which is path of target directory
     path = ''
@@ -108,14 +140,26 @@ if __name__ == "__main__" :
     for f in files:
         if '.properties' == f[-11:] :
             try :
-                Properties2ParadoxYaml(f, path)
-                completed.append(f)
+                result = Properties2ParadoxYaml(f, path)
+                print(result)
+                if result :
+                    if result['NoDelim'] != []:
+                        notproced.append((f, result) )
+                    elif result['BadKey'] != [] :
+                        notproced.append( (f, result) )
+                    elif result['NoValue'] != [] :
+                        completed.append( (f, result) )
+                    else :
+                        completed.append((f, "clean") )
+                else :
+                    notproced.append(f, "FileI/Oerror")
             except :
                 print("file {} has wrong data".format(f) )
                 notproced.append(f)
                 
     print("conversion completed on")
-    print("\n".join(completed) ,"\n")
+    for ii in completed :
+        print(ii)
     print("conversion failed on")
-    print("\n".join(notproced) ,"\n")
-    
+    for ii in notproced :
+        print(ii)
