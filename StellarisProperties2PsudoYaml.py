@@ -10,6 +10,7 @@ def Properties2ParadoxYaml(filename, path = None) :
         filedir = path
     else :
         filedir = os.getcwd()
+    file = None
     ##
     try :
         file = open(os.path.join(filedir, filename), "r", encoding = "UTF-8-SIG")
@@ -22,19 +23,33 @@ def Properties2ParadoxYaml(filename, path = None) :
     proc = []
 
     temp = None
-
+    linecount = 0
     ## this 2 line is all we actually do for conversion.
     ## WTF Paradox...... this isn't Yaml......
     ## data : ...코x='...' x is number
-    for ii in recv :
-        if ii.strip() != '' :
-            if ii[0] == "#" :
+    for line in recv :
+        linecount += 1
+        if line.strip() != '' :
+            if line.strip()[0] == "#" :
                 continue
-            temp = ii.split("=")
-            print(temp)
-            temp[0] = temp[0].replace("코", ":")
+            temp = line.split("=")
+            #print(temp)
+            if len(temp) != 2 :
+                print("wrong data, delminonator not found. skipping this line", linecount)
+            if "코" in temp[0] :
+                temp[0] = temp[0].replace("코", ":")
+            elif ":" in temp[0] :
+                pass
+            else :
+                print("wrong key in line {fileline}, key {lkey}".format(fileline = linecount, lkey = temp[0] ) )
             temp[1] = temp[1].replace("<?>","")
-            if temp[1] != '' :
+            
+            
+            
+            if temp[1] == '' :
+                print("no value in line {fileline}, key {lkey}".format(fileline = linecount, lkey = temp[0] ) )
+                temp[1] = '""'
+            else :
                 if temp[1][0] != '"' :
                     temp[1] = '"' + temp[1]
                 if temp[1][-1] != '"' :
@@ -42,6 +57,7 @@ def Properties2ParadoxYaml(filename, path = None) :
             proc.append(" ".join(temp) )
         else :
             proc.append("")
+            
     file.close()
 
     try :
@@ -86,7 +102,20 @@ if __name__ == "__main__" :
     ## os.path.isfile returns True if target(path+f in this case) is file
     ## files is list of f which is fils in path directory
     files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f) ) ]
+    completed = []
+    notproced = []
     print("files in this directory", files)
     for f in files:
         if '.properties' == f[-11:] :
-            Properties2ParadoxYaml(f, path)
+            try :
+                Properties2ParadoxYaml(f, path)
+                completed.append(f)
+            except :
+                print("file {} has wrong data".format(f) )
+                notproced.append(f)
+                
+    print("conversion completed on")
+    print("\n".join(completed) ,"\n")
+    print("conversion failed on")
+    print("\n".join(notproced) ,"\n")
+    
