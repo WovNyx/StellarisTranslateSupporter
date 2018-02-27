@@ -35,7 +35,7 @@ def Properties2ParadoxYaml(filename, path = None) :
         print(filedir, filename)
         return False
     recv = file.read().split("\n") ## seperate by line
-
+ 
     proc = []
 
     temp = None
