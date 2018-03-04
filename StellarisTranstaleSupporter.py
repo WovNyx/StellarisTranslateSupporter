@@ -236,7 +236,6 @@ class StellarisTranslateSupporter(object) :
                 if (not chain.isdecimal() ) or (kname == '') :
                     return {'status' :'badkey', 'key' : key, 'chain' : '', 'value' : value}
                 else :
-                    
                     if value != '' :
                         return {'status' : 'clean', 'key' :kname, 'chain' : chain, 'value' : value}
                     else :
@@ -263,14 +262,14 @@ class StellarisTranslateSupporter(object) :
                     
             if map['status'] in ['clean', 'novalue', 'nokey'] :
                 if map.get('chain') : ## if map['chain'] is '' or not exist
-                    return {'status' : map['status'], 'line' : (map['key'] + chaindelim + map['chain'] + valdelim + map['value'] ) }
+                    return {'status' : map['status'], 'line' : (map['key'] + chaindelim + map['chain'] + valdelim + self.wrap(map['value'], wletter) ) }
                 else :
                     return {'status' : map['status'], 'line' : (map['key'] + valdelim + map['value']) }
             elif map['status'] == 'badkey' :
                 return {'status' : map['status'], 'line' :  map['key'] + valdelim + map['value'] }
             elif map['status'] == 'novalue':
                 if map.get('chain') : ## if map['chain'] is '' or not exist
-                    return {'status' : map['status'], 'line' :  map['key'] + chaindelim + map['chain'] + valdelim }
+                    return {'status' : map['status'], 'line' :  map['key'] + chaindelim + map['chain'] + valdelim + self.wrap(map['value'], wletter) }
                 else :
                     return {'status' : map['status'], 'line' : map['key'] + valdelim }
             elif map['status'] in ['nodata', 'headline'] :
