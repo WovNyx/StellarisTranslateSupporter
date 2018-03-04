@@ -29,11 +29,11 @@ _config_default = """
 [DATAFORMAT]
     ## name of file format u convert from.
     ## these values are case sensitive.
-    orn_formatname = JavaPropertiesOldType
+    orn_formatname = ParadoxPsudoYml_l_english
     
     ## name of file format you'll get as result.
     ## these values are case sensitive.
-    dest_formatname = ParadoxPsudoYml_l_english
+    dest_formatname = JavaPropertiesOldType
     
     ##example of file format, section name [sectionname] must be same as orn/dest_name values of [data] section.
     ##others will be ignored.
@@ -55,7 +55,7 @@ _config_default = """
         chaindelim = ':'
         ref = '#'
         wletter = '"'
-        headline = '_l_english:'
+        headline = 'l_english:'
         indent = 1
     [ParadoxPsudoYml_l_english_tag]
     ## suffix of file, used for searching file in directory.
@@ -64,7 +64,7 @@ _config_default = """
         chaindelim = ':'
         ref = '#'
         wletter = '"'
-        headline = '_l_english_:'
+        headline = 'l_english_tag:'
         indent = 1
     [JavaProperties]
         suffix = '.properties'
@@ -225,11 +225,15 @@ class StellarisTranslateSupporter(object) :
         ## don't parse chain if no chaindelim recieved
         ## if valdelim is ' '(space) or '\t'(tab), it might return nodelim status even if actual data has delim but has no key or value
         line = line.strip()
+        print(line)
+        print(line==self.orn_fmtdata['headline'])
         if not line :
             return {'status' : 'nodata', 'key' : '', 'chain' : '', 'value' : ''}
         
         if line[0] in ref :
             return {'status' : 'ref', 'key' : '', 'chain' : '', 'value' : line[1:]}
+        if line == self.orn_fmtdata['headline'] :
+            return {'status' : 'headline', 'key' : '', 'chain' : '', 'value' : ''}
         if valdelim in line :
             key, value = line.split(valdelim, 1)
             value = self.unwrap(value, wletter)
@@ -277,7 +281,7 @@ class StellarisTranslateSupporter(object) :
                     return {'status' : map['status'], 'line' :  map['key'] + chaindelim + map['chain'] + valdelim }
                 else :
                     return {'status' : map['status'], 'line' : map['key'] + valdelim }
-            elif map['status'] == 'nodata' :
+            elif map['status'] in ['nodata', 'headline'] :
                 return {'status' : map['status'], 'line' : '' }
         else :
             print("wrong input")
@@ -334,9 +338,6 @@ class StellarisTranslateSupporter(object) :
             linecount += 1
         for line in recv :
             linecount += 1
-            if self.orn_fmtdata.get('headline') :
-                if linecount == 1 and self.orn_fmtdata['headline'] == line :
-                    continue
             temp = self.convLine(line )
             rstatus = temp['status']
             rdata = temp['line']
@@ -346,6 +347,8 @@ class StellarisTranslateSupporter(object) :
             elif rstatus == "ref" :
                 self._debugprint("reference found\n", rdata)
                 continue
+            elif rstatus == "headline" :
+                self._debugprint("header found\n", rdata)
             elif rstatus == "nodata" :
                 proc.append('')
                 self._debugprint("no data in this line")
