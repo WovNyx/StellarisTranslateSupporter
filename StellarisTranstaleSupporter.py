@@ -337,6 +337,7 @@ class StellarisTranslateSupporter(object) :
                 proc.append(rdata)
                 self._debugprint("clean convertion\n", rdata)
             elif rstatus == "ref" :
+                proc.append(rdata)
                 self._debugprint("reference found\n", rdata)
                 continue
             elif rstatus == "headline" :
