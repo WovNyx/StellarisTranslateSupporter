@@ -50,7 +50,7 @@ _config_default = """
         indent = 1
     [ParadoxPsudoYml_l_english]
     ## suffix of file, used for searching file in directory.
-        suffix = '_l_english.yml'
+        suffix = '.yml'
         valdelim =  ' '
         chaindelim = ':'
         ref = '#'
@@ -59,7 +59,7 @@ _config_default = """
         indent = 1
     [ParadoxPsudoYml_l_english_tag]
     ## suffix of file, used for searching file in directory.
-        suffix = '_l_english_tag.yml'
+        suffix = '.yml'
         valdelim =  ' '
         chaindelim = ':'
         ref = '#'
@@ -334,6 +334,9 @@ class StellarisTranslateSupporter(object) :
             linecount += 1
         for line in recv :
             linecount += 1
+            if self.orn_fmtdata.get('headline') :
+                if linecount == 1 and self.orn_fmtdata['headline'] == line :
+                    continue
             temp = self.convLine(line )
             rstatus = temp['status']
             rdata = temp['line']
