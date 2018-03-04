@@ -217,7 +217,7 @@ class StellarisTranslateSupporter(object) :
         ## status is result of data and key, chain, value is parsed outcome data
         ## don't parse chain if no chaindelim recieved
         ## if valdelim is ' '(space) or '\t'(tab), it might return nodelim status even if actual data has delim but has no key or value
-        line = line.strip()
+        line = line.lstrip()
         print(line)
         if not line :
             return {'status' : 'nodata', 'key' : '', 'chain' : '', 'value' : ''}
