@@ -19,7 +19,15 @@ This program is for converting .properties and .yml file used in Stellaris(Parad
   - ### DATATYPE 
     - orn_formatname, dest_formatname : name of orient and dest(result) format name
     - program will find section name of these, and use those values
-    - 
+    - 5 default types now
+        - ParadoxPsudoYml
+            - format for .yml file used in Stellaris(Paradox Interactive) 
+            - l_english in first of line not included(will be fixed)
+        - JavaProperties
+            - format for Java Properties files(.properties)
+        - JavaPropertiesOldType
+            - same as JavaProperties but uses '코' as chaincount seperator
+            - for legacy files
   - ### LINEPARSE
     - behavior of parsing errored line in file
     - error types
