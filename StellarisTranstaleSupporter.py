@@ -69,18 +69,10 @@ _config_default = """
     [JavaProperties]
         suffix = '.properties'
         valdelim = '='
-        chaindelim = ':'
+        chaindelim = '|'
         ref = '#'
         wletter = '"'
-        headlne = ''
-        indent = 0
-    [JavaPropertiesNewType]
-        suffix = 'properties'
-        valdelim = '='
-        chaindelim = ':'
-        ref = '#'
-        wletter = '"'
-        headlne = ''
+        headline = ''
         indent = 0
     [JavaPropertiesOldType]
         ## suffix of file, used for searching file in directory.
@@ -88,8 +80,8 @@ _config_default = """
         valdelim = '='
         chaindelim = '코'
         ref = '#'
-        wletter = '"'
-        headlne = ''
+        wletter = ''
+        headline = ''
         indent = 0
 
 ## error handling and print setting for line parse.
