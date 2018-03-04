@@ -72,7 +72,7 @@ _config_default = """
         chaindelim = ':'
         ref = '#'
         wletter = '"'
-        deheadlne = ''
+        headlne = ''
         indent = 0
     [JavaPropertiesNewType]
         suffix = 'properties'
@@ -80,12 +80,12 @@ _config_default = """
         chaindelim = ':'
         ref = '#'
         wletter = '"'
-        deheadlne = ''
+        headlne = ''
         indent = 0
     [JavaPropertiesOldType]
         ## suffix of file, used for searching file in directory.
         suffix = '.properties'
-        dvaldelim = '='
+        valdelim = '='
         chaindelim = '코'
         ref = '#'
         wletter = '"'
@@ -151,6 +151,7 @@ class StellarisTranslateSupporter(object) :
       
         for ii in self.orn_fmtdata :
             self.orn_fmtdata[ii] = self.unwrap(self.orn_fmtdata[ii], "'" )
+            print(ii, self.orn_fmtdata[ii])
         for ii in self.dest_fmtdata :
             self.dest_fmtdata[ii] = self.unwrap(self.dest_fmtdata[ii], "'" )
             
@@ -226,7 +227,6 @@ class StellarisTranslateSupporter(object) :
         ## if valdelim is ' '(space) or '\t'(tab), it might return nodelim status even if actual data has delim but has no key or value
         line = line.strip()
         print(line)
-        print(line==self.orn_fmtdata['headline'])
         if not line :
             return {'status' : 'nodata', 'key' : '', 'chain' : '', 'value' : ''}
         
@@ -455,7 +455,11 @@ class StellarisTranslateSupporter(object) :
                     print("didin't write on ", file)
                     final['baddata'][os.path.join(orient,file)] = result
             except :
-                final['unknownerror'][os.path.join(orient,file)] = result
+                raise error
+                if result :
+                    final['unknownerror'][os.path.join(orient,file)] = result
+                else :
+                    final['unknownerror'][os.path.join(orient,file)] = "{} failed to convert".format(os.path.join(orient,file) )
                     
                     ##
         print("!!!!!!\n")
@@ -467,9 +471,11 @@ class StellarisTranslateSupporter(object) :
             print(ii)
             for jj in final[ii] :
                 print("\t" + jj)
-                for kk in final[ii][jj] :
-                    print("\t\t",kk,  final[ii][jj][kk]  )
-                    
+                if type(final[ii][jj]) == type({} ) :
+                    for kk in final[ii][jj] :
+                        print("\t\t",kk,  final[ii][jj][kk]  )
+                else :
+                    print("\t\t", final[ii][jj])
                     
         
         
